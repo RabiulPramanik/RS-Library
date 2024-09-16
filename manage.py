@@ -3,10 +3,15 @@
 import os
 import sys
 
-
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'RS_library.settings')
+
+    # Bind to the correct host and port if PORT is specified (for deployment on Render)
+    if 'PORT' in os.environ:
+        port = os.environ['PORT']
+        sys.argv += ['runserver', f'0.0.0.0:{port}']
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -16,7 +21,6 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
     execute_from_command_line(sys.argv)
-
 
 if __name__ == '__main__':
     main()
