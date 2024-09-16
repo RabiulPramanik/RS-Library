@@ -10,7 +10,7 @@ def main():
     # Bind to the correct host and port if PORT is specified (for deployment on Render)
     if 'PORT' in os.environ:
         port = os.environ['PORT']
-        sys.argv += ['runserver', f'0.0.0.0:{port}']
+        sys.argv = ['manage.py', 'runserver', f'0.0.0.0:{port}']
 
     try:
         from django.core.management import execute_from_command_line
