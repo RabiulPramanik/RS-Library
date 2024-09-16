@@ -1,0 +1,13 @@
+<h1>Hello {{user.first_name}} {{user.last_name}}</h1>
+
+<p>
+    {% if title == 'Deposit' %}
+        {{amount}}$ {{title}} Successfully completed. After Deposit Balanace {{user.account.balance}}$
+    {% else %}
+        Empty!
+    {% endif %}
+</p>
+
+
+<h3>Thanks</h3>
+<h1 class="text-red-500 text-sm font-bold">RS Library</h1>

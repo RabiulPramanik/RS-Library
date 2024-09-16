@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block titleBox %}Profile for {{ user.username }}{% endblock titleBox %}
+{% block bodyBox %}
+
+    <div class="container my-5">
+        <!-- Responsive container with margin for better layout on all devices -->
+        {% if borrows %}
+        <div class="table-responsive">
+            <!-- The table-responsive class makes the table scrollable on small devices -->
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Book Name</th>
+                    <th scope="col">Borrow Price</th>
+                    <th scope="col">Borrow Date</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for borrow in borrows %}
+                  <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ borrow.book.title }}</td>
+                    <td>{{ borrow.book.borrowingPrice }}</td>
+                    <td>{{ borrow.on_date }}</td>
+                    {% if borrow.type %}
+                        <td><a class="btn btn-success btn-sm">Complete</a></td>
+                    {% else %}
+                        <td><a href="{% url 'returnBook' borrow.id %}" class="btn btn-danger btn-sm">Return</a></td>
+                    {% endif %}
+                  </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+          <h1 class="text-center text-muted">No borrowed books available!</h1>
+          <!-- Center the text with text-center and make it lighter with text-muted -->
+        {% endif %}
+    </div>
+
+{% endblock bodyBox %}

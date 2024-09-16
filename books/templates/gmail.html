@@ -1,0 +1,15 @@
+<h1>Hello {{user.first_name}} {{user.last_name}}</h1>
+
+<p>
+    {% if title == "Book Borrow" %}
+        {{title}} Successfully completed by {{amount}}$ . After {{title}} then Balanace {{user.account.balance}}$
+    {% elif title == "Book Return" %}
+        {{title}} Successfully completed. After {{title}} then Balanace {{user.account.balance}}$
+    {% else %}
+        Empty!
+    {% endif %}
+</p>
+
+
+<h3>Thanks</h3>
+<h1 class="text-red-500 text-sm font-bold">RS Library</h1>

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block titleBox %}Details for {{book.title}}{% endblock titleBox %}
+
+{% block bodyBox %}
+<div class="container mt-5">
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <img src="{{book.book_image.url}}" class="img-fluid rounded-start" alt="{{book.title}}">
+            </div>
+            <div class="col-lg-8 col-md-6 col-sm-12">
+                <div class="card-body">
+                    <h4 class="card-title">{{book.title}}</h4>
+                    <h5 class="card-title">{{book.category.name}}</h5>
+                    <p class="card-text">{{book.description}}</p>
+                    <h5 class="card-title">Borrow Price: {{book.borrowingPrice}}K $</h5>
+                    <div class="text-center">
+                        <a href="{% url 'borrowBook' book.id %}" class="btn btn-info">Borrow Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h4>Total Reviews: {{Reviews|length}}</h4>
+        <div class="row">
+            {% for Review in Reviews %}
+            <div class="col-md-12 mb-3">
+                <div class="p-4 border border-black rounded bg-light">
+                    <h6 class="card-title">{{Review.user.username}}<br>
+                        --{{Review.description}}</h6>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% if borrow %}
+    <div class="mt-5">
+        <form method='post' class="p-4 border rounded bg-light">
+            <h3>Write your review</h3>
+            {% csrf_token %}
+            {{form|crispy}}
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+    </div>
+    {% else %}
+    <div class="mt-5">
+        <h4>You can't review because you haven't read this book yet.</h4>
+    </div>
+    {% endif %}
+</div>
+{% endblock bodyBox %}

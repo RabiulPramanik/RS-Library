@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titleBox %}Home{% endblock titleBox %}
+
+{% block bodyBox %}
+
+     <!-- Container for Introduction Section -->
+     <div class="container mx-auto px-4 py-6">
+        <div class="flex flex-col sm:flex-row items-center justify-between mb-8">
+            <!-- Introduction Image -->
+            <div class="w-full sm:w-1/2 p-4">
+                <img src="{% static 'library.jpg' %}" alt="RS Library" class="rounded-lg shadow-lg w-full">
+            </div>
+
+            <!-- Introduction Message -->
+            <div class="w-full sm:w-1/2 p-4">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4 text-center">Welcome to RS Library</h2>
+                <p class="text-gray-700 text-lg leading-relaxed">
+                    RS Library is a sanctuary for book lovers. Whether you're looking for fiction, non-fiction, academic works, or rare editions, our extensive collection has something for everyone. We take pride in fostering a community of readers and lifelong learners. Our mission is to provide easy access to books, promote reading culture, and create an enriching environment where you can explore the world of knowledge.
+                </p>
+                <p class="text-gray-700 text-lg leading-relaxed mt-4">
+                    Step inside RS Library, and you will find more than just books — you'll find a world of ideas, imagination, and inspiration. Join us today, and let's embark on a literary adventure together.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container for the category filter -->
+    <div class="container mx-auto px-4 py-6">
+        <!-- Dropdown for small devices -->
+        <div class="block sm:hidden mb-4">
+            <label for="category-select" class="block text-gray-700 text-sm font-bold mb-2">Select Category:</label>
+            <select id="category-select" class="form-select block w-full mt-1 bg-gray-100 border border-gray-300 rounded-md">
+                <option value="{% url 'home' %}">All</option>
+                {% for c in category %}
+                    <option value="{% url 'category_wise_book' c.slug %}">{{ c.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Button group for larger devices -->
+        <div class="hidden sm:flex flex-wrap justify-center mb-6">
+            <a href="{% url 'home' %}" class="btn btn-danger mx-2">All</a>
+            {% for c in category %}
+                <a href="{% url 'category_wise_book' c.slug %}" class="btn btn-warning mx-2">{{ c.name }}</a>
+            {% endfor %}
+        </div>
+
+        <!-- Books Grid -->
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+            {% if books %}
+                {% for book in books %}
+                    <div class="col">
+                        <div class="card shadow-md rounded-lg overflow-hidden">
+                            <img src="{{ book.book_image.url }}" class="card-img-top" alt="{{ book.title }}">
+                            <div class="card-body">
+                                <h4 class="card-title text-lg font-semibold">{{ book.title }}</h4>
+                                <h5 class="card-subtitle text-md text-gray-600">{{ book.category.name }}</h5>
+                                <p class="card-text text-sm text-gray-700">{{ book.description|truncatewords:20 }}</p>
+                                <h6 class="card-price text-md font-bold">Price: {{ book.borrowingPrice }}K $</h6>
+                                {% if request.user.is_authenticated %}
+                                    <p class="card-actions text-center mt-4">
+                                        <a href="{% url 'bookDetails' book.id %}" class="btn btn-warning">View Details</a>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h3 class="text-center text-gray-500">Not Available Books</h3>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Script to handle dropdown selection -->
+    <script>
+        document.getElementById('category-select').addEventListener('change', function() {
+            window.location.href = this.value;
+        });
+    </script>
+{% endblock bodyBox %}
