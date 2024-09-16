@@ -31,6 +31,8 @@ SECRET_KEY = 'django-insecure-(^dxb)z0x&6!gf!p+o_$nrarg+f426d+w%(jmxkpqdl&9sig(z
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+# Add your deployed domain to CSRF_TRUSTED_ORIGINS
+CSRF_TRUSTED_ORIGINS = ['https://rs-library.onrender.com']
 
 
 # Application definition
